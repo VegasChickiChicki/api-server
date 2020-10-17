@@ -21,5 +21,7 @@ app.post('/', (request, response) => {
   console.clear();
   console.log(request.body);
 
+  response.json({status: true});
+
   next();
 });
