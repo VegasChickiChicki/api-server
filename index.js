@@ -4,6 +4,10 @@ const BodyParser = require('body-parser');
 
 const app = express();
 
+const data = {
+  name: 'vegas',
+  value: 256,
+};
 
 app.use(BodyParser.urlencoded({
   extended: true,
@@ -12,7 +16,7 @@ app.use(BodyParser.urlencoded({
 app.use(BodyParser.json());
 
 
-app.get('/', (req, res) => res.send('Hello World'));
+app.get('/', (req, res) => res.send(data));
 
 app.listen(8080, () => console.log('Example app listening on port 8080'));
 
