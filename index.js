@@ -1,22 +1,27 @@
-const app = require('express')();
-const http = require('http').createServer(app);
-const { MongoClient } = require("mongodb");
-const BodyParser = require('body-parser');
-const cors = require('cors');
-const io = require('socket.io')(http);
+const config = require('./config');
+const app = require('./app');
+const database = require('./database');
+const io = require('socket.io')(app);
+const colors = require('colors');
 
-app.use(cors());
-app.use(BodyParser.json());
-app.use(BodyParser.urlencoded({extended: true}));
-
-io.on('connection', socket => {
-  console.log('a user connected');
-
-  socket.on('NewMessage', msg => {
-    io.emit('update-chat', msg);
+database().then(info => {
+  app.listen(config.port, () => {
+    console.log(`Database load status - true`.yellow);
+    console.log(`Server started on port: ${config.port}`.yellow);
   });
+
+  io.on('connection', socket => {
+    console.log('Socket connected'.magenta);
+
+    socket.on('NewMessage', msg => {
+      io.emit('update-chat', msg);
+    });
+  });
+}).catch(error => {
+  console.log(`Database load status - error`.red);
+  console.log(`Database error: `.red);
+  console.log(error.red);
 });
 
-app.get('/', (req, res) => res.send('api-server is ready to work!'));
 
-http.listen(8080, () => console.log('Example app listening on port 8080'));
+
