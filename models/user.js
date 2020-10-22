@@ -44,8 +44,6 @@ user.set('toJSON', {
 user.pre('save', async function(next) {
   const user = this;
 
-  console.log('user object: ', user);
-
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }
@@ -70,12 +68,6 @@ user.methods.GenerateAuthToken = async function() {
 user.statics.FindWithEmail = async function (email)  {
   const user = this;
 
-  const FundedUser = await user.findOne({
-    email: email
-  });
-
-  console.log('FindWithEmail: ', FundedUser);
-
   return user.findOne({
     email: email
   });
@@ -83,12 +75,6 @@ user.statics.FindWithEmail = async function (email)  {
 
 user.statics.FindWithLogin = async function (login)  {
   const user = this;
-
-  const FundedUser = await user.findOne({
-    login: login
-  });
-
-  console.log('FindWithLogin: ', FundedUser);
 
   return user.findOne({
     login: login
