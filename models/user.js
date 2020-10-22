@@ -70,6 +70,12 @@ user.methods.GenerateAuthToken = async function() {
 user.statics.FindWithEmail = async function (email)  {
   const user = this;
 
+  const FundedUser = await user.findOne({
+    email: email
+  });
+
+  console.log('FindWithEmail: ', FundedUser);
+
   return user.findOne({
     email: email
   });
@@ -77,6 +83,12 @@ user.statics.FindWithEmail = async function (email)  {
 
 user.statics.FindWithLogin = async function (login)  {
   const user = this;
+
+  const FundedUser = await user.findOne({
+    login: login
+  });
+
+  console.log('FindWithLogin: ', FundedUser);
 
   return user.findOne({
     login: login
