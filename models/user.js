@@ -112,6 +112,8 @@ user.statics.LoginUser = async function (data)  {
     }
   });
 
+  console.log('FoundUser: ', FoundUser);
+
   if (!FoundUser) {
     return false
   }
