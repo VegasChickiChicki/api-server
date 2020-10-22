@@ -4,6 +4,7 @@ const database = require('./database');
 const io = require('socket.io')(app);
 const colors = require('colors');
 
+const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
 
 database().then(info => {
   app.listen(config.port, () => {
@@ -16,19 +17,31 @@ database().then(info => {
 
     //io.emit('user-connect', user);
 
-    socket.on('connect-user', UserName => {
-      console.log(`User ${UserName} connect`);
-      io.emit('update-chat', `User ${UserName} logged in to the chat`);
+    socket.on('connect-user', data => {
+      console.log(`User ${data.user} connect`);
+      io.emit('update-chat', {
+        user: data.user,
+        message: `Logged in to the chat`,
+        date: date
+      });
     });
 
-    socket.on('disconnect-user', UserName => {
-      console.log(`User ${UserName} disconnect`);
-      io.emit('update-chat', `User ${UserName} logged out of the chat`);
+    socket.on('disconnect-user', data => {
+      console.log(`User ${data.user} disconnect`);
+      io.emit('update-chat', {
+        user: data.user,
+        message: `Logged out of the chat`,
+        date: date
+      });
     });
 
-    socket.on('new-message', message => {
-      console.log(`new-message: ${message}`);
-      io.emit('update-chat', message);
+    socket.on('new-message', data => {
+      console.log(`new-message: ${data.message}`);
+      io.emit('update-chat', {
+        user: data.user,
+        message: data.message,
+        date: date,
+      });
     });
   });
 }).catch(error => {
