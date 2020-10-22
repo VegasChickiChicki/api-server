@@ -33,6 +33,8 @@ router.post('/auth', [
         password: request.body.password,
       });
 
+      console.log('user: ', user);
+
       if (!user) {
         return response.json({
           status: false,
