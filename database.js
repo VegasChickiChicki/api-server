@@ -22,6 +22,6 @@ module.exports = () => {
       resolve(mongoose.connections[0]);
     });
 
-    mongoose.connect(`${config.MongoUrl}/nuxt-chat`,{  useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(`${config.MongoUrl}`,{  useNewUrlParser: true, useUnifiedTopology: true });
   })
 };
