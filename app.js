@@ -16,7 +16,7 @@ app.use('/api/user', routes.user.user);
 
 
 app.get('/', (req, res) => {
-  res.send('api-server is ready to work! version - 1.3.14')
+  res.send('api-server is ready to work! version - 1.3.15')
 });
 
 module.exports = require('http').createServer(app);
