@@ -4,7 +4,6 @@ const database = require('./database');
 const io = require('socket.io')(app);
 const sockets = require('./sokets/index');
 const colors = require('colors');
-const models = require('./models');
 
 database().then(info => {
   app.listen(config.port, () => {

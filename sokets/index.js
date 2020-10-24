@@ -1,3 +1,5 @@
+const models = require('../models/index');
+
 module.exports = io => {
   io.on('connection', socket => {
     const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
