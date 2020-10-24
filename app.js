@@ -13,6 +13,7 @@ app.use('/api/user', routes.user.auth);
 app.use('/api/user', routes.user.logout);
 app.use('/api/user', routes.user.register);
 app.use('/api/user', routes.user.user);
+app.use('/api/user', routes.user.info);
 
 app.use('/api/chat/messages', routes.chat.messages.list);
 app.use('/api/chat/users', routes.chat.users.list);
@@ -21,7 +22,7 @@ app.use('/api/chat/options', routes.chat.options.create);
 
 
 app.get('/', (req, res) => {
-  res.send('api-server is ready to work! version - 1.4.1')
+  res.send('api-server is ready to work! version - 1.4.2')
 });
 
 module.exports = require('http').createServer(app);

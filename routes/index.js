@@ -2,6 +2,7 @@ const UserAuth = require('./user/auth');
 const UserRegister = require('./user/register');
 const UserGetUser = require('./user/user');
 const UserLogout = require('./user/logout');
+const UserInfo = require('./user/info');
 
 const ChatsList = require('./chat/options/list');
 const MessagesList = require('./chat/messages/list');
@@ -14,6 +15,7 @@ module.exports = {
     logout: UserRegister,
     register: UserGetUser,
     user: UserLogout,
+    info: UserInfo,
   },
   chat: {
     messages: {

@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../../../models');
+const models = require('../../models');
 
-router.get('/list', async (request, response) => {
-  await models.chat.find({
-    'users.name': JSON.parse(request.query.user).name,
-  }, { name: 1, users: 1, _id: 0}).lean().exec((error, chats) => {
+router.get('/info', async (request, response) => {
+  await models.user.findOne({
+    token: JSON.parse(request.query.user).token,
+  }, { _id: 0 }).lean().exec((error, user) => {
     if (error){
       return response.json({
         status: false,
         error: {
-          text: 'Failed get chats list!',
+          text: 'Failed get user info!',
           ErrorBody: error,
         }
       });
@@ -18,7 +18,7 @@ router.get('/list', async (request, response) => {
       return response.json({
         status: true,
         body: {
-          chats: chats
+          user: user
         },
       });
     }

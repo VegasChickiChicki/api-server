@@ -2,6 +2,7 @@ const config = require('./config');
 const app = require('./app');
 const database = require('./database');
 const io = require('socket.io')(app);
+const sockets = require('./sokets/index');
 const colors = require('colors');
 const models = require('./models');
 
@@ -11,76 +12,7 @@ database().then(info => {
     console.log(`Server started on port: ${config.port}`.yellow);
   });
 
-  io.on('connection', socket => {
-    console.log('Socket connected'.magenta);
-    /*
-
-    socket.on('connect-user', data => {
-      console.log(`User ${data.user} connect`);
-
-      models.chat.create({
-        user: data.user,
-        message: `Logged in to the chat`,
-        date: date,
-      });
-
-      io.emit('update-chat', {
-        user: data.user,
-        message: `Logged in to the chat`,
-        date: date
-      });
-    });
-
-    socket.on('disconnect-user', data => {
-      console.log(`User ${data.user} disconnect`);
-
-      models.chat.create({
-        user: data.user,
-        message: `Logged out of the chat`,
-        date: date,
-      });
-
-      io.emit('update-chat', {
-        user: data.user,
-        message: `Logged out of the chat`,
-        date: date
-      });
-    });
-
-    */
-
-    socket.on('new-message', async data => {
-      console.log(`new-message: ${data.message}`);
-
-      const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
-
-      io.emit('update-chat', {
-        user: data.UserName,
-        message: data.message,
-        date: date,
-      });
-
-      await models.chat.findOneAndUpdate({
-        name: 'BlueSky'
-      }, {
-        $push: {
-          messages: {
-            user: data.UserName,
-            message: data.message,
-            date: date,
-          }
-        }
-      }, {
-        new: true,
-      }, (error, chat) => {
-        if (!error){
-          //console.log('Chat update! chat: ', chat);
-        } else {
-          //console.log('error: ', error);
-        }
-      });
-    });
-  });
+  sockets(io);
 }).catch(error => {
   console.log(`Database load status - error`.red);
   console.log(`Database error: `.red);

@@ -34,7 +34,9 @@ const user = new schema({
   },
   token: {
     type: String,
-  }
+  },
+}, {
+  versionKey: false,
 });
 
 user.set('toJSON', {
