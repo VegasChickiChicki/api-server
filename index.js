@@ -5,8 +5,6 @@ const io = require('socket.io')(app);
 const colors = require('colors');
 const models = require('./models');
 
-const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
-
 database().then(info => {
   app.listen(config.port, () => {
     console.log(`Database load status - true`.yellow);
@@ -54,29 +52,9 @@ database().then(info => {
     socket.on('new-message', async data => {
       console.log(`new-message: ${data.message}`);
 
+      const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
+
       io.emit('update-chat', {
-        user: data.UserName,
-        message: data.message,
-        date: date,
-      });
-
-      /*
-
-      models.chat.updateOne({ name: data.ChatName }, {
-        $push: {
-          messages: {
-            user: data.UserName,
-            message: data.message,
-            date: date,
-          }
-        },
-      });
-
-      */
-
-      console.log('doc name: ', data.ChatName.magenta);
-
-      console.log('data: ', {
         user: data.UserName,
         message: data.message,
         date: date,

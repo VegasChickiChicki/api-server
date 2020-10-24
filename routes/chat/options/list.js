@@ -3,9 +3,9 @@ const router = express.Router();
 const models = require('../../../models');
 
 router.get('/list', async (request, response) => {
-  await models.chat.findOne({
-    name: JSON.parse(request.query.chat).name,
-  }, { messages: 1 }).lean().exec((error, messages) => {
+  await models.chat.find({
+    'users.name': JSON.parse(request.query.user).name,
+  }, { name: 1, users: 1, _id: 0 }).lean().exec((error, chats) => {
     if (error){
       return response.json({
         status: false,
@@ -17,7 +17,9 @@ router.get('/list', async (request, response) => {
     } else {
       return response.json({
         status: true,
-        body: messages,
+        body: {
+          chats: chats
+        },
       });
     }
   });
