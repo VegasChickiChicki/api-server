@@ -11,7 +11,8 @@ const chat = new schema({
     name: {
       type: String,
       required: true,
-    }
+    },
+    _id: false
   }],
   messages: [{
     user: {

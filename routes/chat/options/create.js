@@ -4,7 +4,7 @@ const models = require('../../../models');
 const { body, validationResult } = require('express-validator');
 
 router.post('/create', [
-  body('data.name').notEmpty().withMessage({
+  body('data.chat.name').notEmpty().withMessage({
     text: 'Field "Chat name" is required',
     type: 'name',
   }).custom(async ChatName => {
@@ -29,7 +29,7 @@ router.post('/create', [
     });
   } else {
     const chat = await models.chat.create({
-      name: request.body.data.name,
+      name: request.body.data.chat.name,
       users: [{
         name: request.body.data.user.name
       }],

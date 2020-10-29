@@ -19,6 +19,8 @@ app.use('/api/chat/messages', routes.chat.messages.list);
 app.use('/api/chat/users', routes.chat.users.list);
 app.use('/api/chat/options', routes.chat.options.list);
 app.use('/api/chat/options', routes.chat.options.create);
+app.use('/api/chat/options', routes.chat.options.find);
+app.use('/api/chat/options', routes.chat.options.join);
 
 
 app.get('/', (req, res) => {

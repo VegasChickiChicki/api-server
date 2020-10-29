@@ -1,38 +1,35 @@
 const models = require('../models/index');
+const cors = require('cors');
 
 module.exports = io => {
   io.on('connection', socket => {
-    const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
+    const date = () => {
+      return [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
+    };
 
-    /*
+    socket.on('join-in-chat', data => {
+      socket.join(data.chat.name);
+    });
 
-    socket.on('connect-user', data => {
-      io.emit('update-chat', {
+    socket.on('user-start-writing', data => {
+      io.to(data.chat.name).emit('update-writing-user', {
         user: data.user.name,
-        message: data.message,
-        date: date,
+        chat: data.chat.name,
       });
     });
 
-    socket.on('disconnect-user', data => {
-      const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
-
-      io.emit('update-chat', {
-        user: data.user.name,
-        message: `Logged out of the chat`,
-        date: date
+    socket.on('user-stop-writing', data => {
+      io.to(data.chat.name).emit('update-writing-user', {
+        user: '',
+        chat: data.chat.name,
       });
     });
-
-    */
 
     socket.on('new-message', async data => {
-      const date = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()].map((x) => x < 10 ? "0" + x : x).join(":");
-
-      io.emit('update-chat', {
+      io.to(data.chat.name).emit('update-chat', {
         user: data.user.name,
         message: data.message,
-        date: date,
+        date: date(),
       });
 
       await models.chat.findOneAndUpdate({
@@ -42,7 +39,7 @@ module.exports = io => {
           messages: {
             user: data.user.name,
             message: data.message,
-            date: date,
+            date: date(),
           }
         }
       }, {
