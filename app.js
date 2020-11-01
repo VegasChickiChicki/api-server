@@ -24,7 +24,7 @@ app.use('/api/chat/options', routes.chat.options.join);
 
 
 app.get('/', (req, res) => {
-  res.send('api-server is ready to work! version - 2.0.1')
+  res.send('api-server is ready to work! version - 2.0.2')
 });
 
 module.exports = require('http').createServer(app);
